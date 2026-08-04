@@ -1,20 +1,25 @@
-# Giáo trình Tin học 11
+# Lập trình Python — 9 buổi (Yersin VB2)
 
-Static documentation website built with Astro Starlight and ready for GitHub Pages.
+Static course website (Vite + single-page HTML/CSS/JS), deployed on Vercel.
+
+## Deployed
+
+- Production: https://lap-trinh-python.vercel.app
+- Git repo: https://github.com/danny2904/lap-trinh-python
 
 ## Local development
 
 ```bash
 npm install
-npm run dev
-```
-
-## Build
-
-```bash
-npm run build
+npm run dev      # dev server
+npm run build    # static build -> dist/
 ```
 
 ## Deploy
 
-Push to GitHub and enable GitHub Pages via Actions.
+Repo is connected to Vercel (Git integration): every push to `main`
+auto-builds and deploys. Manual CLI deploy:
+
+```bash
+vercel --prod
+```
