@@ -274,13 +274,13 @@
         </div>
         <div class="nav-group"><p class="nav-kicker">Phần II</p><p class="nav-title">Ứng dụng thực tế</p>
           <a class="nav-link" data-kind="ung-dung" href="#c04"><span class="nav-num">04</span><span class="nav-text">Buổi 04. Chuỗi, regex, làm sạch dữ liệu</span></a>
-          <a class="nav-link" data-kind="ung-dung" href="#c05"><span class="nav-num">05</span><span class="nav-text">Buổi 05. File txt, csv, json</span></a>
+          <a class="nav-link" data-kind="ung-dung" href="#c05"><span class="nav-num">05</span><span class="nav-text">Buổi 05. Đọc ghi file txt</span></a>
           <a class="nav-link" data-kind="ung-dung" href="#c06"><span class="nav-num">06</span><span class="nav-text">Buổi 06. Tự động hóa file thư mục</span></a>
-          <a class="nav-link" data-kind="ung-dung" href="#c07"><span class="nav-num">07</span><span class="nav-text">Buổi 07. Excel, Word, PDF</span></a>
+          <a class="nav-link" data-kind="ung-dung" href="#c07"><span class="nav-num">07</span><span class="nav-text">Buổi 07. Đọc ghi file Excel</span></a>
         </div>
         <div class="nav-group"><p class="nav-kicker">Phần III</p><p class="nav-title">Dự án tổng hợp</p>
-          <a class="nav-link" data-kind="du-an" href="#c08"><span class="nav-num">08</span><span class="nav-text">Buổi 08. Web, API, ôn tập</span></a>
-          <a class="nav-link" data-kind="du-an" href="#c09"><span class="nav-num">09</span><span class="nav-text">Buổi 09. Project kiểm tra tổng hợp</span></a>
+          <a class="nav-link" data-kind="du-an" href="#c08"><span class="nav-num">08</span><span class="nav-text">Buổi 08. Dùng API Gemini</span></a>
+          <a class="nav-link" data-kind="du-an" href="#c09"><span class="nav-num">09</span><span class="nav-text">Buổi 09. Ôn tập tổng hợp</span></a>
         </div>
         <div class="nav-group"><p class="nav-kicker">Tra cứu</p><p class="nav-title">Dùng khi cần</p><a class="nav-link" href="#appx"><span class="nav-num">A</span><span class="nav-text">Tài liệu tham khảo</span></a></div>
       </nav>
@@ -292,7 +292,7 @@
           <div>
             <div class="eyebrow">Khóa học thực hành</div>
             <h1>LẬP TRÌNH <span>PYTHON</span></h1>
-            <p>Khóa 9 buổi dành cho học viên VB2 tại Yersin: từ cú pháp cơ bản đến làm sạch dữ liệu, tự động hóa file, báo cáo Excel/Word và project tổng kết cuối khóa.</p>
+            <p>Khóa 9 buổi dành cho học viên VB2 tại Yersin: từ cú pháp cơ bản đến làm sạch dữ liệu, tự động hóa file, báo cáo Excel và dùng AI (Gemini) trong công việc, kết thúc bằng buổi ôn tập tổng hợp.</p>
             <div class="hero-actions"><a class="btn primary" href="#c01">Bắt đầu từ Buổi 01</a><button class="secondary" data-open-search>Tìm nhanh <span class="kbd">Ctrl K</span></button></div>
           </div>
           <aside class="author-card">
@@ -418,30 +418,25 @@ print("Email:", email)`,
         ipynb: 'https://drive.google.com/file/d/1wEk13v_VqT6KVNgMe9MnubJWLDJ1A_Kn/view'
       },
       {
-        id: 'c05', n: '05', title: 'File txt, csv, json', kind: 'ung-dung',
-        goal: ['Đọc và ghi file văn bản.', 'Làm việc với bảng dữ liệu CSV.', 'Lưu trữ và trao đổi dữ liệu JSON.'],
-        theory: ['Hàm open(duong_dan, mode, encoding="utf-8") mở file; dùng with open(...) as f để tự đóng file sau khi xong. Mode r để đọc, w để ghi đè, a để ghi thêm.', 'CSV là định dạng bảng phân tách dấu phẩy — csv.DictReader đọc từng dòng thành dictionary với khóa là tiêu đề cột. JSON là định dạng trao đổi dữ liệu phổ biến — json.load đọc, json.dump ghi; nhớ ensure_ascii=False để giữ tiếng Việt.'],
-        code: `import csv, json
-from io import StringIO
-
-du_lieu = """ten,toan,van
-An,8,7.5
+        id: 'c05', n: '05', title: 'Đọc ghi file txt', kind: 'ung-dung',
+        goal: ['Đọc và ghi file văn bản TXT.', 'Xử lý nội dung từng dòng của file.', 'Quản lý đường dẫn bằng pathlib.'],
+        theory: ['Hàm open(duong_dan, mode, encoding="utf-8") mở file; dùng with open(...) as f để file tự đóng sau khi xong. Mode r để đọc, w để ghi đè, a để ghi thêm; duyệt từng dòng bằng for dong in f.', 'pathlib giúp quản lý đường dẫn thay vì nối chuỗi tay: Path("thu_muc") tạo đường dẫn, dấu / ghép file, Path.mkdir(exist_ok=True) tạo thư mục, .read_text()/.write_text() đọc ghi nhanh, .exists() kiểm tra tồn tại.'],
+        code: `du_lieu = """An,8,7.5
 Bình,6.5,7
 Chi,9,8.5
 """
 
-rows = list(csv.DictReader(StringIO(du_lieu)))
-print("Số dòng:", len(rows))
-print(rows[0])
+with open("bang_diem.txt", "w", encoding="utf-8") as f:
+    f.write(du_lieu)
 
-for r in rows:
-    r["diem_tb"] = round((float(r["toan"]) + float(r["van"])) / 2, 2)
+with open("bang_diem.txt", "r", encoding="utf-8") as f:
+    for dong in f:
+        ten, toan, van = dong.strip().split(",")
+        print(ten, toan, van)`,
+        tip: 'Khi mở file tiếng Việt luôn truyền encoding="utf-8". Dùng with open(...) as f để file được tự đóng.',
+        practice: ['Đọc file txt và in từng dòng nội dung.', 'Ghi thêm (mode a) một dòng mới vào file txt.', 'Đọc file điểm, xếp loại Đạt/Chưa đạt và ghi kết quả ra file mới.'],
+        res: 'Buoi_05_Doc_ghi_file_txt — tài liệu md + notebook ipynb.',
 
-ketqua = json.dumps(rows, ensure_ascii=False, indent=2)
-print(ketqua)`,
-        tip: 'Khi mở file tiếng Việt luôn truyền encoding="utf-8". csv.DictReader lấy tiêu đề ở dòng đầu làm khóa.',
-        practice: ['Đọc file txt, đếm số dòng và số từ.', 'Đọc file CSV điểm, tính điểm trung bình từng học viên.', 'Ghi kết quả xếp loại ra file JSON.', 'Nối dữ liệu hai file CSV thành một file chung.'],
-        res: 'Buoi_05_File_txt_csv_json — tài liệu md + notebook ipynb.',
         ipynb: 'https://drive.google.com/file/d/1yJTrBdM8hFi7QvcHKDRYWRuS_4x3draQ/view'
       },
       {
@@ -471,72 +466,68 @@ for f in thu_muc.glob("*"):
         ipynb: 'https://drive.google.com/file/d/1yCJnZmKzu8odYqZr0e0TGoalfFuY1XW8/view'
       },
       {
-        id: 'c07', n: '07', title: 'Excel, Word, PDF', kind: 'ung-dung',
-        goal: ['Đọc ghi Excel bằng openpyxl.', 'Tạo tài liệu Word bằng python-docx.', 'Trích văn bản từ PDF.'],
-        theory: ['openpyxl đọc ghi Excel: load_workbook mở file, ws["A1"] hoặc ws.cell(row, column) truy cập ô, ws.append(dong) thêm dòng, wb.save() lưu file. Phù hợp tính toán và tạo bảng tổng kết.', 'python-docx tạo Word: Document(), add_heading, add_paragraph, add_table rồi doc.save(). Với PDF, pdfplumber hoặc PyPDF2 trích văn bản để lấy thông tin từ tài liệu sẵn có.'],
+        id: 'c07', n: '07', title: 'Đọc ghi file Excel', kind: 'ung-dung',
+        goal: ['Tạo file Excel bằng openpyxl.', 'Ghi dữ liệu vào từng ô và thêm dòng.', 'Đọc lại file Excel và lưu bản mới.'],
+        theory: ['openpyxl làm việc với bảng tính thuần: Workbook() tạo file mới, ws.active lấy sheet, ws.append(dong) thêm một dòng, ws["A1"] hoặc ws.cell(row, column) truy cập ô, wb.save() lưu file. Phù hợp bảng điểm, tổng kết đơn giản.', 'load_workbook mở file có sẵn để đọc hoặc sửa; kết hợp append để thêm cột xếp loại rồi lưu thành file mới.'],
         code: `try:
-    import openpyxl
-    from docx import Document
-    print("Máy đã có openpyxl và python-docx.")
+    from openpyxl import Workbook
 except Exception:
-    print("Trình duyệt demo chưa cài openpyxl/python-docx.")
-    print("Khi làm trên máy thật: pip install openpyxl python-docx")
+    print("Trình duyệt demo chưa cài openpyxl — trên máy thật chạy pip install openpyxl.")
 
 bang_diem = [("An", 8.0), ("Bình", 4.5), ("Chi", 7.0)]
-for ten, diem in bang_diem:
-    xep_loai = "Đạt" if diem >= 5 else "Chưa đạt"
-    print(ten, diem, xep_loai)
+xep_loai = [(ten, diem, "Đạt" if diem >= 5 else "Chưa đạt") for ten, diem in bang_diem]
 
-print("Đã tạo nội dung báo cáo tổng kết dạng demo.")`,
-        tip: 'Cài thư viện bằng: pip install openpyxl python-docx pdfplumber. Dùng openpyxl khi cần vừa đọc vừa ghi.',
-        practice: ['Đọc file Excel, thêm cột xếp loại và lưu file mới.', 'Tạo file Word báo cáo tổng kết có tiêu đề và đoạn văn.', 'Trích toàn bộ văn bản từ một file PDF.', 'Pipeline: đọc Excel, thống kê, xuất báo cáo Word.'],
-        res: 'Buoi_07_Excel_Word_PDF — tài liệu md + notebook ipynb.',
+if "Workbook" in globals():
+    wb = Workbook()
+    ws = wb.active
+    ws.append(["Học viên", "Điểm", "Xếp loại"])
+    for hang in xep_loai:
+        ws.append(hang)
+    print("Đã tạo bảng tổng kết trong Excel.")
+else:
+    for ten, diem, loai in xep_loai:
+        print(ten, diem, loai)`,
+        tip: 'Cài thư viện bằng: pip install openpyxl. Dùng openpyxl khi cần vừa đọc vừa ghi — đủ cho bảng điểm và tổng kết.',
+        practice: ['Tạo file Excel mới có dòng tiêu đề và vài dòng dữ liệu.', 'Ghi dữ liệu từ danh sách vào các ô bằng ws.append.', 'Đọc file Excel có sẵn, thêm cột xếp loại và lưu file mới.'],
+        res: 'Buoi_07_Tao_doc_file_excel — tài liệu md + notebook ipynb.',
+
         ipynb: 'https://drive.google.com/file/d/1FeCzGW-elWne97Vu7mvhf82WODKT4wwC/view'
       },
       {
-        id: 'c08', n: '08', title: 'Web, API, ôn tập', kind: 'du-an',
-        goal: ['Gửi yêu cầu HTTP bằng requests.', 'Đọc dữ liệu JSON từ API.', 'Ôn tập bằng pipeline xử lý dữ liệu tổng hợp.'],
-        theory: ['API (Application Programming Interface) cho phép chương trình lấy dữ liệu từ web theo chuẩn. requests.get(url, timeout=10) gửi yêu cầu; r.status_code == 200 nghĩa là thành công; r.json() chuyển phản hồi thành dữ liệu Python.', 'Buổi này đồng thời là ôn tập: ghép kỹ năng các buổi 4-7 thành một pipeline — lấy dữ liệu, làm sạch, lưu file, xuất báo cáo.'],
-        code: `try:
-    import requests
-    r = requests.get("https://api.github.com/repos/python/cpython", timeout=10)
-    data = r.json()
-except Exception:
-    print("Trình duyệt demo dùng dữ liệu API mẫu.")
-    data = {"full_name": "python/cpython", "stargazers_count": 68000}
+        id: 'c08', n: '08', title: 'Dùng API Gemini', kind: 'du-an',
+        goal: ['Cài thư viện google-generativeai và lấy API key của mình.', 'Gọi model Gemini và đọc câu trả lời.', 'Dùng AI giải quyết việc văn phòng (viết, tóm tắt, rà lỗi).'],
+        theory: ['Gemini là mô hình AI của Google; API trả văn bản: genai.configure(api_key=KHOA_CUA_BAN), model = genai.GenerativeModel("gemini-2.0-flash"), cau_tra_loi = model.generate_content(noi_dung), in cau_tra_loi.text.', 'Lấy key miễn phí tại Google AI Studio (aistudio.google.com/apikey). Đây là cách dùng AI cho công việc: viết nháp email, tóm tắt biên bản, rà lỗi chính tả.'],
+        code: `# Trình duyệt demo: không có key nên chỉ xem luồng gọi, không chạy thật.
+# Trên máy thật:
+#   pip install -q google-generativeai
+#   import google.generativeai as genai
+#   genai.configure(api_key="KHOA_CUA_BAN")   # đăng ký miễn phí Google AI Studio
+#   model = genai.GenerativeModel("gemini-2.0-flash")
+#   dap = model.generate_content("Viết một email nhắc lịch họp ngắn gọn.")
+#   print(dap.text)
 
-print("Repo:", data["full_name"])
-print("Stars:", data["stargazers_count"])`,
-        tip: 'Luôn đặt timeout và kiểm tra status_code. Dữ liệu API thường là JSON — đọc cấu trúc trước khi lấy trường.',
-        practice: ['Gọi một API công khai (GitHub, tỷ giá, thời tiết) và in kết quả.', 'Lưu kết quả API ra file CSV hoặc JSON.', 'Pipeline: fetch dữ liệu, làm sạch, ghi file.', 'Ôn tập tổng hợp: xử lý một bộ dữ liệu sẵn có từ đầu đến cuối.'],
-        res: 'Buoi_08_Web_API_on_tap — tài liệu md + notebook ipynb.',
+print("Demo: luồng gọi Gemini — install, configure, generate_content, .text")`,
+        tip: 'Key chỉ của riêng bạn — đừng ghi cứng vào file công khai; nên để trong biến môi trường hoặc file .env.',
+        practice: ['Cài google-generativeai và thử lấy API key của mình.', 'Nhờ Gemini viết nháp một email ngắn, in ra đoạn trả lời.', 'Nhờ Gemini tóm tắt một đoạn biên bản cuộc họp.', 'Nhờ Gemini rà lỗi chính tả trong một đoạn văn.'],
+        res: 'Buoi_08_Dung_API_Gemini — tài liệu md + notebook ipynb.',
+
         ipynb: 'https://drive.google.com/file/d/1tJbzTspn0p7hlZgYcppCkkleMtpbu1qM/view'
       },
       {
-        id: 'c09', n: '09', title: 'Project kiểm tra tổng hợp', kind: 'du-an',
-        goal: ['Hoàn thành một project nhỏ từ đầu đến cuối.', 'Áp dụng toàn bộ kiến thức 8 buổi trước.', 'Bàn giao sản phẩm và trình bày quy trình.'],
-        theory: ['Đây là buổi kiểm tra tổng hợp. Mỗi học viên chọn một bộ dữ liệu thực tế (điểm số, đơn hàng, khảo sát...) và hoàn thành pipeline: thu thập, làm sạch, phân tích, xuất báo cáo. Sản phẩm gồm script Python, file kết quả và phần trình bày ngắn.', 'Đánh giá theo rubric: hiểu dữ liệu, xử lý đúng, sản phẩm bàn giao rõ ràng và trình bày mạch lạc.'],
-        code: `# Cấu trúc project gợi ý
-def load_data(path):
-    return [8, 7, 9, 6, 5]
+        id: 'c09', n: '09', title: 'Ôn tập tổng hợp', kind: 'du-an',
+        goal: ['Ôn lại toàn bộ kiến thức 8 buổi trước.', 'Thực hành bài tập vận dụng phối hợp nhiều kỹ năng.', 'Dùng Gemini giải quyết một công việc văn phòng cụ thể.'],
+        theory: ['Buổi ôn tập gồm 2 ví dụ hướng dẫn (biến, ép kiểu, phép toán, f-string, if, list, for) và bài tập tự làm xuyên suốt buổi 1-4, không cần thư viện hay file. Ôn lại lần lượt từng kỹ năng trước khi gộp.', 'Phần cuối dùng API Gemini giải quyết công việc thực tế — tóm tắt biên bản cuộc họp và liệt kê việc cần làm — kết nối kiến thức đã học với công việc văn phòng.'],
+        code: `# Ôn tập — ví dụ hướng dẫn 1: biến, ép kiểu, phép toán và if
+so_luong = 3
+don_gia = 200000
+thanh_tien = so_luong * don_gia
 
-def clean_data(data):
-    return [x for x in data if x >= 0]
+nhan_xet = "Hóa đơn vừa" if thanh_tien >= 500000 else "Hóa đơn nhỏ"
+print("Thành tiền:", thanh_tien, "VND -", nhan_xet)`,
+        tip: 'Ôn lần lượt từng kỹ năng, rồi làm bài gộp nhiều kỹ năng. Câu hỏi Gemini là bước kết nối AI với công việc thật.',
+        practice: ['Làm bài tập ôn phép toán, ép kiểu và f-string.', 'Làm bài tập vận dụng chuỗi, dict, if và for.', 'Dùng Gemini tóm tắt biên bản cuộc họp và liệt kê việc cần làm.'],
+        res: 'Buoi_09_On_tap_tong_hop — tài liệu md + notebook ipynb.',
 
-def analyze(data):
-    return {"so_luong": len(data), "trung_binh": round(sum(data) / len(data), 2)}
-
-def export(data, path):
-    print("Xuất báo cáo", path, data)
-
-if __name__ == "__main__":
-    du_lieu = load_data("du_lieu.csv")
-    du_lieu = clean_data(du_lieu)
-    ket_qua = analyze(du_lieu)
-    export(ket_qua, "bao_cao.xlsx")`,
-        tip: 'Chia nhỏ project thành hàm, mỗi hàm làm một việc. Chạy từng bước trước khi nối pipeline hoàn chỉnh.',
-        practice: ['Chọn đề tài và bộ dữ liệu phù hợp.', 'Thu thập dữ liệu và mô tả cấu trúc.', 'Làm sạch và phân tích dữ liệu.', 'Xuất sản phẩm cuối (csv, json hoặc Excel).', 'Trình bày quy trình trong 5 phút.'],
-        res: 'Buoi_09_Project_kiem_tra_tong_hop — tài liệu md + notebook ipynb.',
         ipynb: 'https://drive.google.com/file/d/1RAtPDjRa1LDmJmpwfC49NnJ7e2RxNQlM/view'
       }
     ];
@@ -565,17 +556,17 @@ if __name__ == "__main__":
         <ul>
           <li>Viết script Python chạy được và đọc hiểu code của người khác.</li>
           <li>Làm sạch dữ liệu văn bản bằng chuỗi và regex.</li>
-          <li>Đọc ghi file txt, csv, json một cách chủ động.</li>
+          <li>Đọc ghi file txt và tự động hóa thư mục một cách chủ động.</li>
           <li>Tự động hóa việc sắp xếp, đổi tên, backup file thư mục.</li>
-          <li>Xuất báo cáo Excel, Word và trích dữ liệu từ PDF.</li>
-          <li>Gọi API đơn giản và hoàn thành project tổng hợp cuối khóa.</li>
+          <li>Xuất báo cáo Excel và dùng AI (Gemini) trong công việc.</li>
+          <li>Ôn tập tổng hợp toàn bộ 8 buổi đã học.</li>
         </ul>
         <blockquote><p>Giáo trình dùng Python 3. Một số buổi cần cài thêm thư viện bằng pip. Nếu máy chưa cài được môi trường, có thể dùng Google Colab miễn phí trên trình duyệt.</p></blockquote>
         <h2>Ba giai đoạn của khóa</h2>
         <div class="callout-grid">
           <div class="mini-card"><b>Nền tảng</b><p>Buổi 01–03: cú pháp, rẽ nhánh, vòng lặp, hàm, list và dictionary.</p></div>
-          <div class="mini-card"><b>Ứng dụng</b><p>Buổi 04–07: làm sạch dữ liệu, file, tự động hóa, báo cáo Excel/Word/PDF.</p></div>
-          <div class="mini-card"><b>Dự án</b><p>Buổi 08–09: API, ôn tập và project kiểm tra tổng hợp.</p></div>
+          <div class="mini-card"><b>Ứng dụng</b><p>Buổi 04–07: làm sạch dữ liệu, file, tự động hóa, báo cáo Excel.</p></div>
+          <div class="mini-card"><b>Dự án</b><p>Buổi 08–09: dùng API Gemini và ôn tập tổng hợp.</p></div>
         </div>
       </section>` +
       buois.map(chapterHtml).join('') +
