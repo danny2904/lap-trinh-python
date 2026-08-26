@@ -282,7 +282,7 @@
           <a class="nav-link" data-kind="du-an" href="#c08"><span class="nav-num">08</span><span class="nav-text">Buổi 08. Web, API, ôn tập</span></a>
           <a class="nav-link" data-kind="du-an" href="#c09"><span class="nav-num">09</span><span class="nav-text">Buổi 09. Project kiểm tra tổng hợp</span></a>
         </div>
-        <div class="nav-group"><p class="nav-kicker">Tra cứu</p><p class="nav-title">Dùng khi cần</p><a class="nav-link" href="#appx"><span class="nav-num">A</span><span class="nav-text">Phụ lục. Bảng tra nhanh và tài nguyên</span></a></div>
+        <div class="nav-group"><p class="nav-kicker">Tra cứu</p><p class="nav-title">Dùng khi cần</p><a class="nav-link" href="#appx"><span class="nav-num">A</span><span class="nav-text">Tài liệu tham khảo</span></a></div>
       </nav>
     </aside>
 
@@ -316,7 +316,7 @@
         <a href="#c01">Buổi 01</a>
         <a href="#c04">Buổi 04</a>
         <a href="#c08">Buổi 08</a>
-        <a href="#appx">Phụ lục</a>
+        <a href="#appx">Tài liệu tham khảo</a>
       </div>
     </aside>
   </div>
@@ -568,33 +568,13 @@ if __name__ == "__main__":
       </section>` +
       buois.map(chapterHtml).join('') +
       `<section class="chapter" id="appx" data-kind="all">
-        <h2>Phụ lục. Bảng tra nhanh và tài nguyên</h2>
-        <h3>Thuật ngữ quan trọng</h3>
-        <div class="table-wrap"><table><thead><tr><th>Thuật ngữ</th><th>Ý nghĩa</th><th>Dùng khi</th></tr></thead><tbody>
-          <tr><td>Biến</td><td>Nơi lưu giá trị trong bộ nhớ</td><td>Mọi chương trình</td></tr>
-          <tr><td>Hàm (def)</td><td>Khối lệnh dùng lại được</td><td>Code lặp lại nhiều lần</td></tr>
-          <tr><td>List</td><td>Danh sách có thứ tự</td><td>Nhiều giá trị cùng nhóm</td></tr>
-          <tr><td>Dictionary</td><td>Cặp khóa – giá trị</td><td>Dữ liệu có tên trường</td></tr>
-          <tr><td>Regex</td><td>Mẫu tìm kiếm ký tự</td><td>Trích và làm sạch text</td></tr>
-          <tr><td>CSV / JSON</td><td>Định dạng lưu dữ liệu</td><td>Trao đổi dữ liệu</td></tr>
-          <tr><td>API</td><td>Cổng lấy dữ liệu từ web</td><td>Dữ liệu trực tuyến</td></tr>
-          <tr><td>openpyxl</td><td>Thư viện làm việc với Excel</td><td>Bảng tính</td></tr>
-          <tr><td>pathlib / shutil</td><td>Thư viện file thư mục</td><td>Tự động hóa</td></tr>
-        </tbody></table></div>
-        <h3>Cài đặt môi trường</h3>
-        <ol>
-          <li>Cài Python 3 tại python.org, tích vào Add to PATH.</li>
-          <li>Cài VS Code và extension Python.</li>
-          <li>Cài thư viện: pip install openpyxl python-docx pdfplumber requests.</li>
-          <li>Hoặc dùng Google Colab nếu không cài được môi trường.</li>
-        </ol>
-        <h3>Tài liệu tham khảo</h3>
+        <h2>Tài liệu tham khảo</h2>
+        <p>3 cuốn sách Python miễn phí để tự học thêm bên ngoài khóa học. Bấm để mở trực tiếp.</p>
         <ul>
           <li><a href="https://automatetheboringstuff.com/2e/" target="_blank" rel="noopener">Automate the Boring Stuff with Python <small>(Al Sweigart — bản miễn phí online)</small></a></li>
           <li><a href="https://do1.dr-chuck.com/pythonlearn/EN_us/pythonlearn.pdf" target="_blank" rel="noopener">Python for Everybody <small>(Charles Severance — PDF miễn phí)</small></a></li>
           <li><a href="https://greenteapress.com/thinkpython2/thinkpython2.pdf" target="_blank" rel="noopener">Think Python 2nd Edition <small>(Allen Downey — PDF miễn phí)</small></a></li>
         </ul>
-        <div class="res-card"><strong>Tài nguyên toàn khóa</strong><p>Toàn bộ tài liệu 9 buổi (md + ipynb) nằm trong thư mục Google Drive bên dưới.</p><a class="drive-btn" href="${DRIVE_URL}" target="_blank" rel="noopener">Mở Google Drive ↗</a></div>
       </section>`;
 
     const modal = document.getElementById('searchModal'), input = document.getElementById('searchInput'), results = document.getElementById('searchResults');
