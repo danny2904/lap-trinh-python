@@ -348,7 +348,8 @@ so = int(input("Nhập một số: "))
 print("Bình phương của số đó:", so ** 2)`,
         tip: 'Thụt lề 4 dấu cách là bắt buộc. Dùng f-string để nối chuỗi và biến gọn gàng.',
         practice: ['Cài Python (python.org) và VS Code, mở Jupyter Notebook.', 'Chạy chương trình in ra: Xin chào, tên tôi là ...', 'Nhập tên và năm sinh, in ra tuổi hiện tại.', 'Máy tính nhỏ: nhập hai số, in tổng, hiệu, tích, thương.', 'Chuyển độ C sang độ F theo công thức F = C * 9 / 5 + 32.'],
-        res: 'Buoi_01_Python_co_ban — tài liệu md + notebook ipynb.'
+        res: 'Buoi_01_Python_co_ban — tài liệu md + notebook ipynb.',
+        ipynb: 'https://drive.google.com/file/d/1S-lu2Gk9K_kD6TIaUJio8TZ2q4GWICo4/view'
       },
       {
         id: 'c02', n: '02', title: 'Rẽ nhánh và vòng lặp', kind: 'nen-tang',
@@ -525,6 +526,9 @@ if __name__ == "__main__":
       return s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
     }
     function chapterHtml(b) {
+      const resCard = b.ipynb
+        ? `<div class="res-card"><a class="drive-btn" href="${b.ipynb}" target="_blank" rel="noopener">Mở notebook thực hành ↗</a></div>`
+        : `<div class="res-card"><strong>Tài nguyên buổi ${b.n}</strong><p>${b.res}</p><a class="drive-btn" href="${DRIVE_URL}" target="_blank" rel="noopener">Tải từ Google Drive ↗</a></div>`;
       return `<section class="chapter" id="${b.id}" data-kind="${b.kind}">
         <h2>Buổi ${b.n}. ${b.title}</h2>
         <h3>Mục tiêu</h3><ul>${b.goal.map(g => `<li>${g}</li>`).join('')}</ul>
@@ -532,7 +536,7 @@ if __name__ == "__main__":
         <h3>Ví dụ minh họa</h3><pre class="code"><code>${escCode(b.code)}</code></pre>
         <blockquote><p>${b.tip}</p></blockquote>
         <h3>Thực hành có hướng dẫn</h3><ol>${b.practice.map(s => `<li>${s}</li>`).join('')}</ol>
-        <div class="res-card"><strong>Tài nguyên buổi ${b.n}</strong><p>${b.res}</p><a class="drive-btn" href="${DRIVE_URL}" target="_blank" rel="noopener">Tải từ Google Drive ↗</a></div>
+        ${resCard}
       </section>`;
     }
 
