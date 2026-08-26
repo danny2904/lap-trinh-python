@@ -422,17 +422,23 @@ print("Email:", email)`,
         goal: ['Đọc và ghi file văn bản.', 'Làm việc với bảng dữ liệu CSV.', 'Lưu trữ và trao đổi dữ liệu JSON.'],
         theory: ['Hàm open(duong_dan, mode, encoding="utf-8") mở file; dùng with open(...) as f để tự đóng file sau khi xong. Mode r để đọc, w để ghi đè, a để ghi thêm.', 'CSV là định dạng bảng phân tách dấu phẩy — csv.DictReader đọc từng dòng thành dictionary với khóa là tiêu đề cột. JSON là định dạng trao đổi dữ liệu phổ biến — json.load đọc, json.dump ghi; nhớ ensure_ascii=False để giữ tiếng Việt.'],
         code: `import csv, json
+from io import StringIO
 
-with open("diem.csv", newline="", encoding="utf-8") as f:
-    rows = list(csv.DictReader(f))
+du_lieu = """ten,toan,van
+An,8,7.5
+Bình,6.5,7
+Chi,9,8.5
+"""
+
+rows = list(csv.DictReader(StringIO(du_lieu)))
 print("Số dòng:", len(rows))
 print(rows[0])
 
 for r in rows:
     r["diem_tb"] = round((float(r["toan"]) + float(r["van"])) / 2, 2)
 
-with open("ketqua.json", "w", encoding="utf-8") as f:
-    json.dump(rows, f, ensure_ascii=False, indent=2)`,
+ketqua = json.dumps(rows, ensure_ascii=False, indent=2)
+print(ketqua)`,
         tip: 'Khi mở file tiếng Việt luôn truyền encoding="utf-8". csv.DictReader lấy tiêu đề ở dòng đầu làm khóa.',
         practice: ['Đọc file txt, đếm số dòng và số từ.', 'Đọc file CSV điểm, tính điểm trung bình từng học viên.', 'Ghi kết quả xếp loại ra file JSON.', 'Nối dữ liệu hai file CSV thành một file chung.'],
         res: 'Buoi_05_File_txt_csv_json — tài liệu md + notebook ipynb.',
@@ -446,9 +452,15 @@ with open("ketqua.json", "w", encoding="utf-8") as f:
 import shutil
 
 thu_muc = Path("Tai_lieu")
+thu_muc.mkdir(exist_ok=True)
+for ten_file in ["diem.xlsx", "bao_cao.docx", "anh.jpg", "ghi_chu.txt"]:
+    (thu_muc / ten_file).write_text("demo", encoding="utf-8")
+
 phan_loai = {".docx": "Word", ".xlsx": "Excel", ".pdf": "PDF", ".jpg": "Hinh"}
 
 for f in thu_muc.glob("*"):
+    if f.is_dir():
+        continue
     nhom = phan_loai.get(f.suffix.lower(), "Khac")
     (thu_muc / nhom).mkdir(exist_ok=True)
     shutil.move(str(f), str(thu_muc / nhom / f.name))
@@ -462,20 +474,20 @@ for f in thu_muc.glob("*"):
         id: 'c07', n: '07', title: 'Excel, Word, PDF', kind: 'ung-dung',
         goal: ['Đọc ghi Excel bằng openpyxl.', 'Tạo tài liệu Word bằng python-docx.', 'Trích văn bản từ PDF.'],
         theory: ['openpyxl đọc ghi Excel: load_workbook mở file, ws["A1"] hoặc ws.cell(row, column) truy cập ô, ws.append(dong) thêm dòng, wb.save() lưu file. Phù hợp tính toán và tạo bảng tổng kết.', 'python-docx tạo Word: Document(), add_heading, add_paragraph, add_table rồi doc.save(). Với PDF, pdfplumber hoặc PyPDF2 trích văn bản để lấy thông tin từ tài liệu sẵn có.'],
-        code: `import openpyxl
-from docx import Document
+        code: `try:
+    import openpyxl
+    from docx import Document
+    print("Máy đã có openpyxl và python-docx.")
+except Exception:
+    print("Trình duyệt demo chưa cài openpyxl/python-docx.")
+    print("Khi làm trên máy thật: pip install openpyxl python-docx")
 
-wb = openpyxl.load_workbook("diem.xlsx")
-ws = wb.active
-for row in ws.iter_rows(min_row=2):
-    diem = float(row[2].value)
-    row[3].value = "Đạt" if diem >= 5 else "Chưa đạt"
-wb.save("diem_da_xep_loai.xlsx")
+bang_diem = [("An", 8.0), ("Bình", 4.5), ("Chi", 7.0)]
+for ten, diem in bang_diem:
+    xep_loai = "Đạt" if diem >= 5 else "Chưa đạt"
+    print(ten, diem, xep_loai)
 
-doc = Document()
-doc.add_heading("Báo cáo tổng kết", 0)
-doc.add_paragraph("Đã xếp loại toàn bộ học viên trong file diem.xlsx.")
-doc.save("bao_cao.docx")`,
+print("Đã tạo nội dung báo cáo tổng kết dạng demo.")`,
         tip: 'Cài thư viện bằng: pip install openpyxl python-docx pdfplumber. Dùng openpyxl khi cần vừa đọc vừa ghi.',
         practice: ['Đọc file Excel, thêm cột xếp loại và lưu file mới.', 'Tạo file Word báo cáo tổng kết có tiêu đề và đoạn văn.', 'Trích toàn bộ văn bản từ một file PDF.', 'Pipeline: đọc Excel, thống kê, xuất báo cáo Word.'],
         res: 'Buoi_07_Excel_Word_PDF — tài liệu md + notebook ipynb.',
@@ -485,16 +497,16 @@ doc.save("bao_cao.docx")`,
         id: 'c08', n: '08', title: 'Web, API, ôn tập', kind: 'du-an',
         goal: ['Gửi yêu cầu HTTP bằng requests.', 'Đọc dữ liệu JSON từ API.', 'Ôn tập bằng pipeline xử lý dữ liệu tổng hợp.'],
         theory: ['API (Application Programming Interface) cho phép chương trình lấy dữ liệu từ web theo chuẩn. requests.get(url, timeout=10) gửi yêu cầu; r.status_code == 200 nghĩa là thành công; r.json() chuyển phản hồi thành dữ liệu Python.', 'Buổi này đồng thời là ôn tập: ghép kỹ năng các buổi 4-7 thành một pipeline — lấy dữ liệu, làm sạch, lưu file, xuất báo cáo.'],
-        code: `import requests
-
-url = "https://api.github.com/repos/python/cpython"
-r = requests.get(url, timeout=10)
-if r.status_code == 200:
+        code: `try:
+    import requests
+    r = requests.get("https://api.github.com/repos/python/cpython", timeout=10)
     data = r.json()
-    print("Repo:", data["full_name"])
-    print("Stars:", data["stargazers_count"])
-else:
-    print("Lỗi:", r.status_code)`,
+except Exception:
+    print("Trình duyệt demo dùng dữ liệu API mẫu.")
+    data = {"full_name": "python/cpython", "stargazers_count": 68000}
+
+print("Repo:", data["full_name"])
+print("Stars:", data["stargazers_count"])`,
         tip: 'Luôn đặt timeout và kiểm tra status_code. Dữ liệu API thường là JSON — đọc cấu trúc trước khi lấy trường.',
         practice: ['Gọi một API công khai (GitHub, tỷ giá, thời tiết) và in kết quả.', 'Lưu kết quả API ra file CSV hoặc JSON.', 'Pipeline: fetch dữ liệu, làm sạch, ghi file.', 'Ôn tập tổng hợp: xử lý một bộ dữ liệu sẵn có từ đầu đến cuối.'],
         res: 'Buoi_08_Web_API_on_tap — tài liệu md + notebook ipynb.',
@@ -506,16 +518,16 @@ else:
         theory: ['Đây là buổi kiểm tra tổng hợp. Mỗi học viên chọn một bộ dữ liệu thực tế (điểm số, đơn hàng, khảo sát...) và hoàn thành pipeline: thu thập, làm sạch, phân tích, xuất báo cáo. Sản phẩm gồm script Python, file kết quả và phần trình bày ngắn.', 'Đánh giá theo rubric: hiểu dữ liệu, xử lý đúng, sản phẩm bàn giao rõ ràng và trình bày mạch lạc.'],
         code: `# Cấu trúc project gợi ý
 def load_data(path):
-    pass  # Đọc dữ liệu
+    return [8, 7, 9, 6, 5]
 
 def clean_data(data):
-    pass  # Làm sạch
+    return [x for x in data if x >= 0]
 
 def analyze(data):
-    pass  # Thống kê, phân tích
+    return {"so_luong": len(data), "trung_binh": round(sum(data) / len(data), 2)}
 
 def export(data, path):
-    pass  # Xuất báo cáo
+    print("Xuất báo cáo", path, data)
 
 if __name__ == "__main__":
     du_lieu = load_data("du_lieu.csv")
@@ -626,7 +638,13 @@ if __name__ == "__main__":
     let pyRunSeq = 0;
     const pyRunHandlers = new Map();
 
-    function getPyWorker() {
+    const PY_RUN_TIMEOUT_MS = 6000;
+
+    function getPyWorker(reset = false) {
+      if (reset && pyWorker) {
+        pyWorker.terminate();
+        pyWorker = null;
+      }
       if (pyWorker) return pyWorker;
       pyWorker = new Worker('./py-worker.js');
       pyWorker.onmessage = event => {
@@ -698,6 +716,13 @@ if __name__ == "__main__":
         setStatus('Đang gửi code sang Python worker...');
 
         const runId = ++pyRunSeq;
+        let done = false;
+        const timeout = setTimeout(() => {
+          if (done) return;
+          appendOut(`\nĐã dừng sau ${PY_RUN_TIMEOUT_MS / 1000}s. Code có thể đang lặp vô hạn hoặc chờ nhập liệu.\n`);
+          getPyWorker(true);
+          finishRun('Đã dừng để tránh treo.');
+        }, PY_RUN_TIMEOUT_MS);
         pyRunHandlers.set(runId, msg => {
           if (msg.type === 'stdout' || msg.type === 'stderr') appendOut(msg.text || '');
           if (msg.type === 'run-done') finishRun('Xong ✔');
@@ -711,10 +736,14 @@ if __name__ == "__main__":
           type: 'run',
           id: runId,
           code: editor.value,
-          stdinSeed: needsInput ? needsInputSeed() : '7'
+          stdinSeed: needsInput ? needsInputSeed() : '7',
+          stdinLines: needsInput ? needsInputLines() : ['7']
         });
 
         function finishRun(message) {
+          if (done) return;
+          done = true;
+          clearTimeout(timeout);
           setStatus(message);
           delete status.dataset.loading;
           runBtn.disabled = false;
@@ -737,6 +766,12 @@ if __name__ == "__main__":
         if (/điểm|diem|grade|nhập điểm/.test(promptTxt)) return 8;
         if (/chào|tên|name/.test(promptTxt)) return "An";
         return 7;
+      }
+
+      function needsInputLines() {
+        if (/Đoán số|Doan so|guess/i.test(source)) return ['1','2','3','4','5','6','7','8','9','10'];
+        const count = (source.match(/\binput\s*\(/g) || []).length;
+        return Array.from({ length: Math.max(1, count) }, () => needsInputSeed());
       }
     }
 

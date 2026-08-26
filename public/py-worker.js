@@ -37,7 +37,9 @@ self.onmessage = async event => {
     const py = await ensurePyodide();
     py.setStdout({ batched: text => post('stdout', { id: msg.id, text: text + '\n' }) });
     py.setStderr({ batched: text => post('stderr', { id: msg.id, text: text + '\n' }) });
-    py.setStdin({ stdin: () => String(msg.stdinSeed ?? '7') + '\n' });
+    const stdinLines = Array.isArray(msg.stdinLines) ? msg.stdinLines : [msg.stdinSeed ?? '7'];
+    let stdinIndex = 0;
+    py.setStdin({ stdin: () => String(stdinLines[stdinIndex++] ?? stdinLines[stdinLines.length - 1] ?? '7') + '\n' });
     await py.runPythonAsync(String(msg.code || ''));
     post('run-done', { id: msg.id });
   } catch (error) {
