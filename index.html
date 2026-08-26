@@ -534,8 +534,6 @@ if __name__ == "__main__":
         <h3>Mục tiêu</h3><ul>${b.goal.map(g => `<li>${g}</li>`).join('')}</ul>
         <h3>Lý thuyết</h3>${b.theory.map(p => `<p>${p}</p>`).join('')}
         <h3>Ví dụ minh họa</h3><pre class="code"><code>${escCode(b.code)}</code></pre>
-        <blockquote><p>${b.tip}</p></blockquote>
-        <h3>Thực hành có hướng dẫn</h3><ol>${b.practice.map(s => `<li>${s}</li>`).join('')}</ol>
         ${resCard}
       </section>`;
     }
