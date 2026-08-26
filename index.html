@@ -371,7 +371,8 @@ for i in range(1, 11):
     print("3 x", i, "=", 3 * i)`,
         tip: 'range(a, b) chạy từ a đến b-1. Cẩn thận vòng lặp while vô hạn — luôn có lệnh thay đổi biến điều kiện.',
         practice: ['Nhập điểm, xếp loại: 8 trở lên Giỏi, 6.5 Khá, 5 Trung bình, dưới 5 Yếu.', 'In bảng cửu chương của một số nhập vào.', 'Trò chơi đoán số 1-10, giới hạn 5 lượt.', 'Đếm và in tổng các số chẵn trong khoảng 1 đến n.'],
-        res: 'Buoi_02_Re_nhanh_vong_lap — tài liệu md + notebook ipynb.'
+        res: 'Buoi_02_Re_nhanh_vong_lap — tài liệu md + notebook ipynb.',
+        ipynb: 'https://drive.google.com/file/d/1XFn3ux9ZUPERq8fxropnJLetww7Pcvpr/view'
       },
       {
         id: 'c03', n: '03', title: 'Hàm, list, dictionary', kind: 'nen-tang',
@@ -394,7 +395,8 @@ gioi = [h["ten"] for h in hs if h["diem"] >= 8]
 print("Học sinh giỏi:", gioi)`,
         tip: 'return kết thúc hàm ngay. dict.get("khoa") an toàn hơn dict["khoa"] khi khóa chưa chắc tồn tại.',
         practice: ['Viết hàm kiem_tra_nguyen_to(n) trả về đúng/sai.', 'Viết hàm tinh_trung_binh(danh_sach) xử lý danh sách rỗng.', 'Xây danh sách học viên dạng dictionary và in bảng xếp loại.', 'Dùng comprehension để lọc điểm dưới trung bình rồi sắp xếp.'],
-        res: 'Buoi_03_Ham_list_dictionary — tài liệu md + notebook ipynb.'
+        res: 'Buoi_03_Ham_list_dictionary — tài liệu md + notebook ipynb.',
+        ipynb: 'https://drive.google.com/file/d/1TqWWOyBoZ0BsKKEzqqYDeAGms3BMAF5c/view'
       },
       {
         id: 'c04', n: '04', title: 'Chuỗi, regex, làm sạch dữ liệu', kind: 'ung-dung',
@@ -412,7 +414,8 @@ print("SĐT:", sdt)
 print("Email:", email)`,
         tip: 'Luôn dùng raw string r"..." cho regex để dấu gạch chéo không bị hiểu sai. Test regex trên dữ liệu mẫu nhỏ trước.',
         practice: ['Chuẩn hóa tên: bỏ khoảng trắng thừa và viết hoa chữ cái đầu.', 'Trích tất cả số điện thoại và email từ một đoạn văn.', 'Kiểm tra số điện thoại hợp lệ: chỉ gồm 10-11 chữ số.', 'Làm sạch một cột địa chỉ có ký tự lạ và khoảng trắng.'],
-        res: 'Buoi_04_Chuoi_regex_lam_sach_du_lieu — tài liệu md + notebook ipynb.'
+        res: 'Buoi_04_Chuoi_regex_lam_sach_du_lieu — tài liệu md + notebook ipynb.',
+        ipynb: 'https://drive.google.com/file/d/1o7-rHvt2aZyQgLFNbIkon9aSXdpvJq6p/view'
       },
       {
         id: 'c05', n: '05', title: 'File txt, csv, json', kind: 'ung-dung',
@@ -432,7 +435,8 @@ with open("ketqua.json", "w", encoding="utf-8") as f:
     json.dump(rows, f, ensure_ascii=False, indent=2)`,
         tip: 'Khi mở file tiếng Việt luôn truyền encoding="utf-8". csv.DictReader lấy tiêu đề ở dòng đầu làm khóa.',
         practice: ['Đọc file txt, đếm số dòng và số từ.', 'Đọc file CSV điểm, tính điểm trung bình từng học viên.', 'Ghi kết quả xếp loại ra file JSON.', 'Nối dữ liệu hai file CSV thành một file chung.'],
-        res: 'Buoi_05_File_txt_csv_json — tài liệu md + notebook ipynb.'
+        res: 'Buoi_05_File_txt_csv_json — tài liệu md + notebook ipynb.',
+        ipynb: 'https://drive.google.com/file/d/1IOaDO3NlhKjobWFgYWqg4nb0ZUEKaGiQ/view'
       },
       {
         id: 'c06', n: '06', title: 'Tự động hóa file thư mục', kind: 'ung-dung',
@@ -451,7 +455,8 @@ for f in thu_muc.glob("*"):
     print("Đã chuyển:", f.name, "->", nhom)`,
         tip: 'mkdir(exist_ok=True) không báo lỗi nếu thư mục đã tồn tại. Chạy thử trên bản sao dữ liệu trước khi áp dụng thật.',
         practice: ['Liệt kê toàn bộ file trong một thư mục kèm kích thước.', 'Phân loại file vào thư mục theo đuôi mở rộng.', 'Đổi tên hàng loạt file theo mẫu có số thứ tự.', 'Backup: copy các file sửa trong 7 ngày gần đây sang thư mục mới.'],
-        res: 'Buoi_06_Tu_dong_hoa_file_thu_muc — tài liệu md + notebook ipynb.'
+        res: 'Buoi_06_Tu_dong_hoa_file_thu_muc — tài liệu md + notebook ipynb.',
+        ipynb: 'https://drive.google.com/file/d/1OEWtw_W08vYHZMZYtHNO5v2E_tkHNA07/view'
       },
       {
         id: 'c07', n: '07', title: 'Excel, Word, PDF', kind: 'ung-dung',
@@ -473,7 +478,8 @@ doc.add_paragraph("Đã xếp loại toàn bộ học viên trong file diem.xlsx
 doc.save("bao_cao.docx")`,
         tip: 'Cài thư viện bằng: pip install openpyxl python-docx pdfplumber. Dùng openpyxl khi cần vừa đọc vừa ghi.',
         practice: ['Đọc file Excel, thêm cột xếp loại và lưu file mới.', 'Tạo file Word báo cáo tổng kết có tiêu đề và đoạn văn.', 'Trích toàn bộ văn bản từ một file PDF.', 'Pipeline: đọc Excel, thống kê, xuất báo cáo Word.'],
-        res: 'Buoi_07_Excel_Word_PDF — tài liệu md + notebook ipynb.'
+        res: 'Buoi_07_Excel_Word_PDF — tài liệu md + notebook ipynb.',
+        ipynb: 'https://drive.google.com/file/d/1-vI1fgbQEZ6XRs74MjdlfIm8QbiHtvtt/view'
       },
       {
         id: 'c08', n: '08', title: 'Web, API, ôn tập', kind: 'du-an',
@@ -491,7 +497,8 @@ else:
     print("Lỗi:", r.status_code)`,
         tip: 'Luôn đặt timeout và kiểm tra status_code. Dữ liệu API thường là JSON — đọc cấu trúc trước khi lấy trường.',
         practice: ['Gọi một API công khai (GitHub, tỷ giá, thời tiết) và in kết quả.', 'Lưu kết quả API ra file CSV hoặc JSON.', 'Pipeline: fetch dữ liệu, làm sạch, ghi file.', 'Ôn tập tổng hợp: xử lý một bộ dữ liệu sẵn có từ đầu đến cuối.'],
-        res: 'Buoi_08_Web_API_on_tap — tài liệu md + notebook ipynb.'
+        res: 'Buoi_08_Web_API_on_tap — tài liệu md + notebook ipynb.',
+        ipynb: 'https://drive.google.com/file/d/1QnOytF9KPxoyc-BrRRXQRx51ag7eEdgx/view'
       },
       {
         id: 'c09', n: '09', title: 'Project kiểm tra tổng hợp', kind: 'du-an',
@@ -517,7 +524,8 @@ if __name__ == "__main__":
     export(ket_qua, "bao_cao.xlsx")`,
         tip: 'Chia nhỏ project thành hàm, mỗi hàm làm một việc. Chạy từng bước trước khi nối pipeline hoàn chỉnh.',
         practice: ['Chọn đề tài và bộ dữ liệu phù hợp.', 'Thu thập dữ liệu và mô tả cấu trúc.', 'Làm sạch và phân tích dữ liệu.', 'Xuất sản phẩm cuối (csv, json hoặc Excel).', 'Trình bày quy trình trong 5 phút.'],
-        res: 'Buoi_09_Project_kiem_tra_tong_hop — tài liệu md + notebook ipynb.'
+        res: 'Buoi_09_Project_kiem_tra_tong_hop — tài liệu md + notebook ipynb.',
+        ipynb: 'https://drive.google.com/file/d/1jwJ0Ei_LCd0RIUO6Cad5VpvzXzk-ykio/view'
       }
     ];
 
@@ -738,8 +746,8 @@ if __name__ == "__main__":
       }
     }
 
-    // Gắn nút Chạy thử cho code — chỉ Buổi 01 (các buổi khác chờ duyệt sau)
-    document.querySelectorAll('#c01 pre.code').forEach(buildRunner);
+    // Gắn nút Chạy thử cho code — áp dụng cho tất cả các buổi
+    document.querySelectorAll('#chapters section.chapter[id^="c"] pre.code').forEach(buildRunner);
   </script>
 </body>
 </html>
