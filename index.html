@@ -203,6 +203,21 @@
     .res-card p { margin-bottom:12px; font-size:13px; }
     .drive-btn { display:inline-block; background:#0f9d58; color:#fff; border-radius:999px; padding:10px 16px; font-weight:800; text-decoration:none; border:0; }
     .drive-btn:hover { background:#0b7a45; }
+    .pyrun { margin: 18px 0; }
+    .pyrun-head { display:flex; flex-wrap:wrap; gap:8px; align-items:center; background: var(--surface-2); border:1px solid var(--line); border-radius:14px 14px 0 0; padding:10px 12px; }
+    .pyrun-label { font: 700 12px/1 var(--font-body); color: var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-right:auto; }
+    .py-in { width:120px; padding:8px 10px; border-radius:10px; border:1px solid var(--line); background:var(--surface); color:var(--ink); font:600 12px/1 var(--font-mono); }
+    .py-toggle, .py-run { background: var(--mint); color:#fff; border-color:transparent; }
+    .py-toggle:hover, .py-run:hover { background: var(--mint-dark); }
+    .pyrun-body { border:1px solid var(--line); border-top:0; border-radius:0 0 14px 14px; padding:12px; background:var(--surface); }
+    .py-editor { width:100%; min-height:110px; resize:vertical; background:#0d1117; color:#e6edf3; border:1px solid rgba(255,255,255,.1); border-radius:10px; padding:12px; font:600 13px/1.5 var(--font-mono); white-space:pre; }
+    [data-theme="light"] .py-editor { background:#f6f8fa; color:#1f2328; border-color:var(--line); }
+    .pyrun-actions { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-top:10px; }
+    .py-status { font-size:12px; color: var(--muted); }
+    .py-output { margin-top:10px; border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+    .py-ohead { font:900 10px/1 var(--font-body); letter-spacing:.12em; text-transform:uppercase; padding:8px 12px; background:var(--surface-2); color:var(--ink); }
+    .py-console { margin:0; padding:12px; background:#0d1117; color:#e6edf3; font:600 13px/1.6 var(--font-mono); white-space:pre-wrap; }
+    [data-theme="light"] .py-console { background:#f6f8fa; color:#1f2328; }
     .focus .sidebar, .focus .rail, .focus .filters { display:none; }
     .focus .topbar { grid-template-columns: 1fr auto; }
     .focus .shell { grid-template-columns: 1fr; }
@@ -618,6 +633,126 @@ if __name__ == "__main__":
       document.querySelectorAll('.filter').forEach(b => b.setAttribute('aria-pressed', String(b===btn)));
       document.querySelectorAll('.nav-link[data-kind], section.chapter[data-kind]').forEach(el => el.classList.toggle('hidden-by-filter', f !== 'all' && el.dataset.kind !== f));
     });
+
+    // ---------- Pyodide: chạy code Python ngay trong trình duyệt ----------
+    const PYODIDE_CDN = 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js';
+    let pyodide = null;
+    let pyodideLoading = null;
+
+    function loadPyodideAsync() {
+      if (pyodide) return Promise.resolve(pyodide);
+      if (pyodideLoading) return pyodideLoading;
+      pyodideLoading = new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = PYODIDE_CDN;
+        s.onload = () => window.loadPyodide().then(p => { pyodide = p; resolve(p); }, reject);
+        s.onerror = () => reject(new Error('Không thể tải Pyodide từ CDN.'));
+        document.head.appendChild(s);
+      });
+      return pyodideLoading;
+    }
+
+    function buildRunner(pre) {
+      const codeEl = pre.querySelector('code');
+      const source = codeEl ? codeEl.textContent.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&') : '';
+      const needsInput = /\binput\s*\(/.test(source);
+
+      const box = document.createElement('div');
+      box.className = 'pyrun';
+      box.innerHTML = `
+        <div class="pyrun-head">
+          <span class="pyrun-label">Chạy thử trên trình duyệt</span>
+          <button class="py-toggle" type="button">▶ Chạy thử</button>
+        </div>
+        <div class="pyrun-body" hidden>
+          <textarea class="py-editor" spellcheck="false" aria-label="Mã Python">${source.replace(/</g,'&lt;')}</textarea>
+          <div class="pyrun-actions">
+            <button class="py-run" type="button">Chạy</button>
+            <span class="py-status"></span>
+          </div>
+          <div class="py-output" hidden><div class="py-ohead">Kết quả</div><pre class="py-console"></pre></div>
+        </div>`;
+
+      pre.insertAdjacentElement('afterend', box);
+
+      const toggle = box.querySelector('.py-toggle');
+      const body = box.querySelector('.pyrun-body');
+      const editor = box.querySelector('.py-editor');
+      const runBtn = box.querySelector('.py-run');
+      const status = box.querySelector('.py-status');
+      const output = box.querySelector('.py-output');
+      const consoleEl = box.querySelector('.py-console');
+      let ready = false;
+
+      function setStatus(t) { status.textContent = t; }
+
+      async function ensureReady() {
+        if (ready) return true;
+        setStatus('Đang tải Python (khá nặng, ~10s lần đầu)...');
+        try {
+          await loadPyodideAsync();
+          ready = true;
+          setStatus('Sẵn sàng.');
+          return true;
+        } catch (e) {
+          setStatus('Lỗi tải: ' + e.message);
+          return false;
+        }
+      }
+
+      toggle.onclick = async () => {
+        const wasHidden = body.hidden;
+        body.hidden = !wasHidden;
+        toggle.textContent = wasHidden ? '▲ Thu gọn' : '▶ Chạy thử';
+        if (wasHidden && !ready) await ensureReady();
+      };
+
+      runBtn.onclick = async () => {
+        if (!(await ensureReady())) return;
+        runBtn.disabled = true;
+        consoleEl.textContent = '';
+        output.hidden = true;
+        setStatus('Đang chạy...');
+        try {
+          // Tuyến stdout/stderr ra hộp kết quả
+          pyodide.setStdout({ batched: s => appendOut(s + '\n') });
+          pyodide.setStderr({ batched: s => appendOut(s + '\n') });
+          if (needsInput) {
+            // Không có ô nhập riêng — cấp một giá trị mặc định để mẫu chạy được không treo.
+            // Học viên muốn đổi thì sửa ngay trong ô code.
+            const v = (String(needsInputSeed()) + '\n');
+            pyodide.setStdin({ stdin: () => v });
+          }
+          await pyodide.runPythonAsync(editor.value);
+          setStatus('Xong ✔');
+        } catch (e) {
+          appendOut(String(e.message) + '\n');
+          setStatus('Lỗi chạy.');
+        } finally {
+          runBtn.disabled = false;
+        }
+      };
+
+      function appendOut(s) {
+        output.hidden = false;
+        consoleEl.textContent += s;
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+      }
+
+      // Giá trị mặc định cấp cho input() khi code có nhập liệu (không có ô nhập riêng)
+      function needsInputSeed() {
+        const m = source.match(/input\s*\(\s*["']?\s*([^\n"']*?)\s*["']?\s*\)/);
+        const promptTxt = m ? m[1].trim() : '';
+        // Rất sơ bộ: đoán theo từ khóa trong câu hỏi, mặc định 7
+        if (/năm|tuổi|born|năm sinh/.test(promptTxt)) return 20;
+        if (/điểm|diem|grade|nhập điểm/.test(promptTxt)) return 8;
+        if (/chào|tên|name/.test(promptTxt)) return "An";
+        return 7;
+      }
+    }
+
+    // Gắn nút Chạy thử cho code — chỉ Buổi 01 (các buổi khác chờ duyệt sau)
+    document.querySelectorAll('#c01 pre.code').forEach(buildRunner);
   </script>
 </body>
 </html>
