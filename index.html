@@ -621,22 +621,34 @@ if __name__ == "__main__":
       document.querySelectorAll('.nav-link[data-kind], section.chapter[data-kind]').forEach(el => el.classList.toggle('hidden-by-filter', f !== 'all' && el.dataset.kind !== f));
     });
 
-    // ---------- Pyodide: chạy code Python ngay trong trình duyệt ----------
-    const PYODIDE_CDN = 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js';
-    let pyodide = null;
-    let pyodideLoading = null;
+    // ---------- Pyodide: chạy code Python trong Web Worker để không treo UI ----------
+    let pyWorker = null;
+    let pyRunSeq = 0;
+    const pyRunHandlers = new Map();
 
-    function loadPyodideAsync() {
-      if (pyodide) return Promise.resolve(pyodide);
-      if (pyodideLoading) return pyodideLoading;
-      pyodideLoading = new Promise((resolve, reject) => {
-        const s = document.createElement('script');
-        s.src = PYODIDE_CDN;
-        s.onload = () => window.loadPyodide().then(p => { pyodide = p; resolve(p); }, reject);
-        s.onerror = () => reject(new Error('Không thể tải Pyodide từ CDN.'));
-        document.head.appendChild(s);
-      });
-      return pyodideLoading;
+    function getPyWorker() {
+      if (pyWorker) return pyWorker;
+      pyWorker = new Worker('./py-worker.js');
+      pyWorker.onmessage = event => {
+        const msg = event.data || {};
+        if (msg.type === 'init-start') {
+          document.querySelectorAll('.py-status[data-loading="true"]').forEach(el => { el.textContent = 'Đang tải Python lần đầu (~10-30s), trang vẫn dùng được...'; });
+          return;
+        }
+        if (msg.type === 'init-ready') {
+          document.querySelectorAll('.py-status[data-loading="true"]').forEach(el => { el.textContent = 'Đang chạy...'; });
+          return;
+        }
+        const handler = pyRunHandlers.get(msg.id);
+        if (handler) handler(msg);
+      };
+      pyWorker.onerror = error => {
+        document.querySelectorAll('.py-status[data-loading="true"]').forEach(el => {
+          el.textContent = 'Lỗi tải Python: ' + (error.message || 'không rõ');
+          delete el.dataset.loading;
+        });
+      };
+      return pyWorker;
     }
 
     function buildRunner(pre) {
@@ -669,54 +681,44 @@ if __name__ == "__main__":
       const status = box.querySelector('.py-status');
       const output = box.querySelector('.py-output');
       const consoleEl = box.querySelector('.py-console');
-      let ready = false;
-
       function setStatus(t) { status.textContent = t; }
-
-      async function ensureReady() {
-        if (ready) return true;
-        setStatus('Đang tải Python (khá nặng, ~10s lần đầu)...');
-        try {
-          await loadPyodideAsync();
-          ready = true;
-          setStatus('Sẵn sàng.');
-          return true;
-        } catch (e) {
-          setStatus('Lỗi tải: ' + e.message);
-          return false;
-        }
-      }
 
       toggle.onclick = async () => {
         const wasHidden = body.hidden;
         body.hidden = !wasHidden;
         toggle.textContent = wasHidden ? '▲ Thu gọn' : '▶ Chạy thử';
-        if (wasHidden && !ready) await ensureReady();
+        if (wasHidden) setStatus('Bấm Chạy để chạy Python. Lần đầu sẽ tải nền, không treo trang.');
       };
 
       runBtn.onclick = async () => {
-        if (!(await ensureReady())) return;
         runBtn.disabled = true;
         consoleEl.textContent = '';
         output.hidden = true;
-        setStatus('Đang chạy...');
-        try {
-          // Tuyến stdout/stderr ra hộp kết quả
-          pyodide.setStdout({ batched: s => appendOut(s + '\n') });
-          pyodide.setStderr({ batched: s => appendOut(s + '\n') });
-          if (needsInput) {
-            // Không có ô nhập riêng — cấp một giá trị mặc định để mẫu chạy được không treo.
-            // Học viên muốn đổi thì sửa ngay trong ô code.
-            const v = (String(needsInputSeed()) + '\n');
-            pyodide.setStdin({ stdin: () => v });
+        status.dataset.loading = 'true';
+        setStatus('Đang gửi code sang Python worker...');
+
+        const runId = ++pyRunSeq;
+        pyRunHandlers.set(runId, msg => {
+          if (msg.type === 'stdout' || msg.type === 'stderr') appendOut(msg.text || '');
+          if (msg.type === 'run-done') finishRun('Xong ✔');
+          if (msg.type === 'run-error') {
+            appendOut((msg.message || 'Lỗi không rõ') + '\n');
+            finishRun('Lỗi chạy.');
           }
-          await pyodide.runPythonAsync(editor.value);
-          setStatus('Xong ✔');
-        } catch (e) {
-          appendOut(String(e.message) + '\n');
-          setStatus('Lỗi chạy.');
-        } finally {
+        });
+
+        getPyWorker().postMessage({
+          type: 'run',
+          id: runId,
+          code: editor.value,
+          stdinSeed: needsInput ? needsInputSeed() : '7'
+        });
+
+        function finishRun(message) {
+          setStatus(message);
+          delete status.dataset.loading;
           runBtn.disabled = false;
+          pyRunHandlers.delete(runId);
         }
       };
 
