@@ -202,6 +202,8 @@
     .res-card p { margin-bottom:12px; font-size:13px; }
     .drive-btn { display:inline-block; background:#0f9d58; color:#fff; border-radius:999px; padding:10px 16px; font-weight:800; text-decoration:none; border:0; }
     .drive-btn:hover { background:#0b7a45; }
+    button.drive-btn { font: inherit; }
+    .drive-btn.locked { background:#b8b8b8; color:#ececec; cursor:not-allowed; }
     .pyrun { margin: 18px 0; }
     .pyrun-head { display:flex; flex-wrap:wrap; gap:8px; align-items:center; background: var(--surface-2); border:1px solid var(--line); border-radius:14px 14px 0 0; padding:10px 12px; }
     .pyrun-label { font: 700 12px/1 var(--font-body); color: var(--muted); text-transform:uppercase; letter-spacing:.06em; margin-right:auto; }
@@ -333,7 +335,7 @@
 
     const buois = [
       {
-        id: 'c01', n: '01', title: 'Python cơ bản', kind: 'nen-tang',
+        id: 'c01', n: '01', open: '2026-09-04', title: 'Python cơ bản', kind: 'nen-tang',
         goal: ['Cài đặt Python và chạy được chương trình đầu tiên.', 'Nắm vững biến, kiểu dữ liệu, nhập và xuất.', 'Viết chương trình tính toán có ép kiểu dữ liệu.'],
         theory: ['Python là ngôn ngữ lập trình thông dịch, cú pháp gọn, được dùng phổ biến trong xử lý dữ liệu và tự động hóa. Chương trình chạy từng dòng từ trên xuống; khối lệnh được phân biệt bằng thụt lề thay vì dấu ngoặc.', 'Dữ liệu được lưu vào biến. Kiểu cơ bản gồm số nguyên (int), số thực (float), chuỗi (str) và đúng/sai (bool). print() đưa kết quả ra màn hình, input() nhận dữ liệu từ bàn phím — giá trị nhận vào luôn là chuỗi nên cần ép kiểu bằng int() hoặc float() trước khi tính toán.'],
         code: `# Biến và kiểu dữ liệu
@@ -351,7 +353,7 @@ print("Bình phương của số đó:", so ** 2)`,
         ipynb: 'https://drive.google.com/file/d/1x1fhKyny3-mXEO20F9Bu78zgYwZRQgZE/view'
       },
       {
-        id: 'c02', n: '02', title: 'Rẽ nhánh và vòng lặp', kind: 'nen-tang',
+        id: 'c02', n: '02', open: '2026-09-04', title: 'Rẽ nhánh và vòng lặp', kind: 'nen-tang',
         goal: ['Dùng if, elif, else để rẽ nhánh theo điều kiện.', 'Lặp bằng for và while, kiểm soát bằng break, continue.', 'Kết hợp rẽ nhánh và vòng lặp trong bài toán thực tế.'],
         theory: ['Câu lệnh if cho phép chương trình rẽ nhánh theo điều kiện. Toán tử so sánh (==, !=, <, >, <=, >=) và toán tử logic (and, or, not) dùng để viết điều kiện phức tạp.', 'Vòng lặp for duyệt qua một chuỗi giá trị như range(), list hay chuỗi ký tự. Vòng lặp while lặp tới khi điều kiện sai. break dừng vòng lặp ngay lập tức, continue bỏ qua lượt hiện tại và sang lượt kế tiếp.'],
         code: `import random
@@ -375,7 +377,7 @@ for i in range(1, 11):
         ipynb: 'https://drive.google.com/file/d/1ffkViVoWbIq8zFyjvj-j19DvJdI-NxDZ/view'
       },
       {
-        id: 'c03', n: '03', title: 'Hàm, list, dictionary', kind: 'nen-tang',
+        id: 'c03', n: '03', open: '2026-09-11', title: 'Hàm, list, dictionary', kind: 'nen-tang',
         goal: ['Định nghĩa hàm và dùng lại code.', 'Thao tác list: thêm, xóa, cắt, duyệt.', 'Lưu dữ liệu có cấu trúc bằng dictionary.'],
         theory: ['Hàm đóng gói một khối lệnh dùng lại nhiều lần: def ten_ham(tham_so): ... return ket_qua. Hàm giúp chương trình ngắn, dễ đọc và dễ sửa.', 'list là danh sách có thứ tự với các thao tác append, pop, len, cắt lát (slicing). dictionary lưu cặp khóa - giá trị: dict["khoa"], dict.get(), keys(), values(). List comprehension viết gọn vòng lặp tạo list mới.'],
         code: `def xep_loai(diem):
@@ -399,7 +401,7 @@ print("Học sinh giỏi:", gioi)`,
         ipynb: 'https://drive.google.com/file/d/1D4TXdihf5QsyEYZpqRH6vGjBUffVpemD/view'
       },
       {
-        id: 'c04', n: '04', title: 'Chuỗi, regex, làm sạch dữ liệu', kind: 'ung-dung',
+        id: 'c04', n: '04', open: '2026-09-11', title: 'Chuỗi, regex, làm sạch dữ liệu', kind: 'ung-dung',
         goal: ['Xử lý chuỗi bằng phương thức có sẵn.', 'Trích mẫu ký tự bằng regex.', 'Làm sạch dữ liệu văn bản thực tế.'],
         theory: ['Dữ liệu thực tế thường bẩn: thừa khoảng trắng, sai hoa thường, lẫn số điện thoại, email. Các phương thức chuỗi strip(), lower(), upper(), replace(), split(), join() xử lý nhanh những trường hợp đơn giản.', 'Regex (thư viện re) mô tả mẫu ký tự: \\d là số, \\w là chữ hoặc số, [abc] là một trong các ký tự, dấu + lặp từ 1 lần, dấu * lặp từ 0 lần. re.findall(mau, text) trả về mọi chỗ khớp mẫu.'],
         code: `import re
@@ -418,7 +420,7 @@ print("Email:", email)`,
         ipynb: 'https://drive.google.com/file/d/1wEk13v_VqT6KVNgMe9MnubJWLDJ1A_Kn/view'
       },
       {
-        id: 'c05', n: '05', title: 'Đọc ghi file txt', kind: 'ung-dung',
+        id: 'c05', n: '05', open: '2026-09-18', title: 'Đọc ghi file txt', kind: 'ung-dung',
         goal: ['Đọc và ghi file văn bản TXT.', 'Xử lý nội dung từng dòng của file.', 'Quản lý đường dẫn bằng pathlib.'],
         theory: ['Hàm open(duong_dan, mode, encoding="utf-8") mở file; dùng with open(...) as f để file tự đóng sau khi xong. Mode r để đọc, w để ghi đè, a để ghi thêm; duyệt từng dòng bằng for dong in f.', 'pathlib giúp quản lý đường dẫn thay vì nối chuỗi tay: Path("thu_muc") tạo đường dẫn, dấu / ghép file, Path.mkdir(exist_ok=True) tạo thư mục, .read_text()/.write_text() đọc ghi nhanh, .exists() kiểm tra tồn tại.'],
         code: `du_lieu = """An,8,7.5
@@ -440,7 +442,7 @@ with open("bang_diem.txt", "r", encoding="utf-8") as f:
         ipynb: 'https://drive.google.com/file/d/1yJTrBdM8hFi7QvcHKDRYWRuS_4x3draQ/view'
       },
       {
-        id: 'c06', n: '06', title: 'Tự động hóa file thư mục', kind: 'ung-dung',
+        id: 'c06', n: '06', open: '2026-09-18', title: 'Tự động hóa file thư mục', kind: 'ung-dung',
         goal: ['Duyệt và quản lý file bằng pathlib.', 'Đổi tên, di chuyển, sao chép file.', 'Viết script phân loại file theo loại.'],
         theory: ['pathlib làm việc với đường dẫn theo kiểu hiện đại: Path("thu_muc").glob("*.txt") tìm file theo mẫu, .name lấy tên file, .suffix lấy phần đuôi. Path.rename đổi tên, mkdir tạo thư mục.', 'shutil.move di chuyển và shutil.copy sao chép file. Kết hợp các thư viện này thành script phân loại file theo đuôi — công việc tốn nhiều giờ làm tay chỉ còn vài giây chạy tự động.'],
         code: `from pathlib import Path
@@ -466,7 +468,7 @@ for f in thu_muc.glob("*"):
         ipynb: 'https://drive.google.com/file/d/1yCJnZmKzu8odYqZr0e0TGoalfFuY1XW8/view'
       },
       {
-        id: 'c07', n: '07', title: 'Đọc ghi file Excel', kind: 'ung-dung',
+        id: 'c07', n: '07', open: '2026-09-25', title: 'Đọc ghi file Excel', kind: 'ung-dung',
         goal: ['Tạo file Excel bằng openpyxl.', 'Ghi dữ liệu vào từng ô và thêm dòng.', 'Đọc lại file Excel và lưu bản mới.'],
         theory: ['openpyxl làm việc với bảng tính thuần: Workbook() tạo file mới, ws.active lấy sheet, ws.append(dong) thêm một dòng, ws["A1"] hoặc ws.cell(row, column) truy cập ô, wb.save() lưu file. Phù hợp bảng điểm, tổng kết đơn giản.', 'load_workbook mở file có sẵn để đọc hoặc sửa; kết hợp append để thêm cột xếp loại rồi lưu thành file mới.'],
         code: `try:
@@ -494,7 +496,7 @@ else:
         ipynb: 'https://drive.google.com/file/d/1FeCzGW-elWne97Vu7mvhf82WODKT4wwC/view'
       },
       {
-        id: 'c08', n: '08', title: 'Phân tích dữ liệu', kind: 'du-an',
+        id: 'c08', n: '08', open: '2026-09-25', title: 'Phân tích dữ liệu', kind: 'du-an',
         goal: ['Đọc dữ liệu từ file CSV bằng pandas và khám phá nhanh.', 'Nhóm và tính tổng bằng groupby() để trả lời câu hỏi kinh doanh.', 'Vẽ biểu đồ cột, đường, tròn và xuất báo cáo Excel.'],
         theory: ['pandas đọc bảng dữ liệu thành DataFrame: pd.read_csv("ban_hang.csv"), df.head()/tail() xem vài dòng, df["Doanh_thu"].describe() thống kê trung bình min max.', 'Nhóm theo tư duy Pivot Table trong Excel: df.groupby("Danh_muc")["Doanh_thu"].sum() cộng tổng theo từng nhóm; lọc bằng df[df["Doanh_thu"] > ngưỡng]. Vẽ thẳng từ kết quả bằng .plot(kind="bar"/"line"/"pie") rồi lưu báo cáo bằng pd.ExcelWriter.'],
         code: `try:
@@ -516,7 +518,7 @@ else:
         ipynb: 'https://drive.google.com/file/d/1gdD5q8NYBWYMO1ISmm-EUCqyF7_UJfay/view'
       },
       {
-        id: 'c09', n: '09', title: 'Làm việc với API Gemini', kind: 'du-an',
+        id: 'c09', n: '09', open: '2026-10-02', title: 'Làm việc với API Gemini', kind: 'du-an',
         goal: ['Cài thư viện google-generativeai và lấy API key của mình.', 'Gọi Gemini và đưa nội dung công việc vào prompt.', 'Nạp bảng số liệu (kiểu phân tích buổi 8) để Gemini viết nhận xét gửi sếp.'],
         theory: ['Gemini là mô hình AI của Google; API trả văn bản: genai.configure(api_key=KHOA_CUA_BAN), model = genai.GenerativeModel("gemini-2.0-flash"), cau_tra_loi = model.generate_content(noi_dung), in cau_tra_loi.text.', 'Buổi kết màn: đưa bảng thống kê vào prompt để Gemini viết đoạn nhận xét gửi sếp (executive summary) và tự phát hiện tháng bất thường — kết hợp Python truyền thống và AI để giải phóng công sức.'],
         code: `# Trình duyệt demo: không có key nên chỉ xem luồng gọi, không chạy thật.
@@ -541,9 +543,18 @@ print("Demo: luồng gọi Gemini — install, configure, generate_content, .tex
     function escCode(s) {
       return s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
     }
+    function openLocked(b) {
+      return b.open ? (new Date() < new Date(b.open + "T00:00:00")) : false;
+    }
+    function openLabel(b) {
+      const d = new Date(b.open + "T00:00:00");
+      return d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
+    }
     function chapterHtml(b) {
       const resCard = b.ipynb
-        ? `<div class="res-card"><a class="drive-btn" href="${b.ipynb}" target="_blank" rel="noopener">Mở notebook thực hành ↗</a></div>`
+        ? (openLocked(b)
+            ? `<div class="res-card"><button class="drive-btn locked" disabled>Mở notebook thực hành ↗ · mở từ ${openLabel(b)}</button></div>`
+            : `<div class="res-card"><a class="drive-btn" href="${b.ipynb}" target="_blank" rel="noopener">Mở notebook thực hành ↗</a></div>`)
         : `<div class="res-card"><strong>Tài nguyên buổi ${b.n}</strong><p>${b.res}</p><a class="drive-btn" href="${DRIVE_URL}" target="_blank" rel="noopener">Tải từ Google Drive ↗</a></div>`;
       return `<section class="chapter" id="${b.id}" data-kind="${b.kind}">
         <h2>Buổi ${b.n}. ${b.title}</h2>
