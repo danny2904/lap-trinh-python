@@ -546,14 +546,10 @@ print("Demo: luồng gọi Gemini — install, configure, generate_content, .tex
     function openLocked(b) {
       return b.open ? (new Date() < new Date(b.open + "T00:00:00")) : false;
     }
-    function openLabel(b) {
-      const d = new Date(b.open + "T00:00:00");
-      return d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
-    }
     function chapterHtml(b) {
       const resCard = b.ipynb
         ? (openLocked(b)
-            ? `<div class="res-card"><button class="drive-btn locked" disabled>Mở notebook thực hành ↗ · mở từ ${openLabel(b)}</button></div>`
+            ? `<div class="res-card"><button class="drive-btn locked" disabled>Mở notebook thực hành ↗ · coming soon</button></div>`
             : `<div class="res-card"><a class="drive-btn" href="${b.ipynb}" target="_blank" rel="noopener">Mở notebook thực hành ↗</a></div>`)
         : `<div class="res-card"><strong>Tài nguyên buổi ${b.n}</strong><p>${b.res}</p><a class="drive-btn" href="${DRIVE_URL}" target="_blank" rel="noopener">Tải từ Google Drive ↗</a></div>`;
       return `<section class="chapter" id="${b.id}" data-kind="${b.kind}">
