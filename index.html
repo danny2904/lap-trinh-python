@@ -279,8 +279,8 @@
           <a class="nav-link" data-kind="ung-dung" href="#c07"><span class="nav-num">07</span><span class="nav-text">Buổi 07. Đọc ghi file Excel</span></a>
         </div>
         <div class="nav-group"><p class="nav-kicker">Phần III</p><p class="nav-title">Dự án tổng hợp</p>
-          <a class="nav-link" data-kind="du-an" href="#c08"><span class="nav-num">08</span><span class="nav-text">Buổi 08. Dùng API Gemini</span></a>
-          <a class="nav-link" data-kind="du-an" href="#c09"><span class="nav-num">09</span><span class="nav-text">Buổi 09. Ôn tập tổng hợp</span></a>
+          <a class="nav-link" data-kind="du-an" href="#c08"><span class="nav-num">08</span><span class="nav-text">Buổi 08. Phân tích dữ liệu</span></a>
+          <a class="nav-link" data-kind="du-an" href="#c09"><span class="nav-num">09</span><span class="nav-text">Buổi 09. Làm việc với API Gemini</span></a>
         </div>
         <div class="nav-group"><p class="nav-kicker">Tra cứu</p><p class="nav-title">Dùng khi cần</p><a class="nav-link" href="#appx"><span class="nav-num">A</span><span class="nav-text">Tài liệu tham khảo</span></a></div>
       </nav>
@@ -292,7 +292,7 @@
           <div>
             <div class="eyebrow">Khóa học thực hành</div>
             <h1>LẬP TRÌNH <span>PYTHON</span></h1>
-            <p>Khóa 9 buổi dành cho học viên VB2 tại Yersin: từ cú pháp cơ bản đến làm sạch dữ liệu, tự động hóa file, báo cáo Excel và dùng AI (Gemini) trong công việc, kết thúc bằng buổi ôn tập tổng hợp.</p>
+            <p>Khóa 9 buổi dành cho học viên VB2 tại Yersin: từ cú pháp cơ bản đến làm sạch dữ liệu, tự động hóa file, báo cáo Excel, phân tích dữ liệu bằng pandas và dùng AI (Gemini) trong công việc.</p>
             <div class="hero-actions"><a class="btn primary" href="#c01">Bắt đầu từ Buổi 01</a><button class="secondary" data-open-search>Tìm nhanh <span class="kbd">Ctrl K</span></button></div>
           </div>
           <aside class="author-card">
@@ -494,42 +494,48 @@ else:
         ipynb: 'https://drive.google.com/file/d/1FeCzGW-elWne97Vu7mvhf82WODKT4wwC/view'
       },
       {
-        id: 'c08', n: '08', title: 'Dùng API Gemini', kind: 'du-an',
-        goal: ['Cài thư viện google-generativeai và lấy API key của mình.', 'Gọi model Gemini và đọc câu trả lời.', 'Dùng AI giải quyết việc văn phòng (viết, tóm tắt, rà lỗi).'],
-        theory: ['Gemini là mô hình AI của Google; API trả văn bản: genai.configure(api_key=KHOA_CUA_BAN), model = genai.GenerativeModel("gemini-2.0-flash"), cau_tra_loi = model.generate_content(noi_dung), in cau_tra_loi.text.', 'Lấy key miễn phí tại Google AI Studio (aistudio.google.com/apikey). Đây là cách dùng AI cho công việc: viết nháp email, tóm tắt biên bản, rà lỗi chính tả.'],
+        id: 'c08', n: '08', title: 'Phân tích dữ liệu', kind: 'du-an',
+        goal: ['Đọc dữ liệu từ file CSV bằng pandas và khám phá nhanh.', 'Nhóm và tính tổng bằng groupby() để trả lời câu hỏi kinh doanh.', 'Vẽ biểu đồ cột, đường, tròn và xuất báo cáo Excel.'],
+        theory: ['pandas đọc bảng dữ liệu thành DataFrame: pd.read_csv("ban_hang.csv"), df.head()/tail() xem vài dòng, df["Doanh_thu"].describe() thống kê trung bình min max.', 'Nhóm theo tư duy Pivot Table trong Excel: df.groupby("Danh_muc")["Doanh_thu"].sum() cộng tổng theo từng nhóm; lọc bằng df[df["Doanh_thu"] > ngưỡng]. Vẽ thẳng từ kết quả bằng .plot(kind="bar"/"line"/"pie") rồi lưu báo cáo bằng pd.ExcelWriter.'],
+        code: `try:
+    import pandas as pd
+except Exception:
+    print("Trình duyệt demo chưa cài pandas — trên máy thật chạy: pip install pandas matplotlib")
+
+if "pd" in globals():
+    df = pd.DataFrame({"Danh_muc": ["Điện tử", "Thời trang", "Gia dụng"],
+                       "Doanh_thu": [94700000, 20050000, 31800000]})
+    theo = df.groupby("Danh_muc")["Doanh_thu"].sum().sort_values(ascending=False)
+    print(theo)
+else:
+    print("Demo: groupby Danh_muc → Điện tử 94.700.000 (bán chạy nhất)")`,
+        tip: 'Nhóm như Pivot Table: chọn cột nhóm, chọn cột số, cộng tổng — groupby() trả lời hầu hết câu hỏi sếp đặt.',
+        practice: ['Đọc file CSV và xem head/describe để hiểu dữ liệu.', 'Nhóm doanh thu theo danh mục, tìm danh mục bán chạy nhất.', 'Vẽ biểu đồ cột theo khu vực và đường theo tháng.', 'Xuất bảng kết quả ra file Excel để báo cáo.'],
+        res: 'Buoi_08_Phan_tich_du_lieu — tài liệu md + notebook ipynb.',
+
+        ipynb: 'https://drive.google.com/file/d/1gdD5q8NYBWYMO1ISmm-EUCqyF7_UJfay/view'
+      },
+      {
+        id: 'c09', n: '09', title: 'Làm việc với API Gemini', kind: 'du-an',
+        goal: ['Cài thư viện google-generativeai và lấy API key của mình.', 'Gọi Gemini và đưa nội dung công việc vào prompt.', 'Nạp bảng số liệu (kiểu phân tích buổi 8) để Gemini viết nhận xét gửi sếp.'],
+        theory: ['Gemini là mô hình AI của Google; API trả văn bản: genai.configure(api_key=KHOA_CUA_BAN), model = genai.GenerativeModel("gemini-2.0-flash"), cau_tra_loi = model.generate_content(noi_dung), in cau_tra_loi.text.', 'Buổi kết màn: đưa bảng thống kê vào prompt để Gemini viết đoạn nhận xét gửi sếp (executive summary) và tự phát hiện tháng bất thường — kết hợp Python truyền thống và AI để giải phóng công sức.'],
         code: `# Trình duyệt demo: không có key nên chỉ xem luồng gọi, không chạy thật.
 # Trên máy thật:
 #   pip install -q google-generativeai
 #   import google.generativeai as genai
 #   genai.configure(api_key="KHOA_CUA_BAN")   # đăng ký miễn phí Google AI Studio
 #   model = genai.GenerativeModel("gemini-2.0-flash")
-#   dap = model.generate_content("Viết một email nhắc lịch họp ngắn gọn.")
+#   dap = model.generate_content("Viết nhận xét ngắn gọn gửi sếp về bảng doanh thu theo tháng.")
 #   print(dap.text)
 
 print("Demo: luồng gọi Gemini — install, configure, generate_content, .text")`,
-        tip: 'Key chỉ của riêng bạn — đừng ghi cứng vào file công khai; nên để trong biến môi trường hoặc file .env.',
-        practice: ['Cài google-generativeai và thử lấy API key của mình.', 'Nhờ Gemini viết nháp một email ngắn, in ra đoạn trả lời.', 'Nhờ Gemini tóm tắt một đoạn biên bản cuộc họp.', 'Nhờ Gemini rà lỗi chính tả trong một đoạn văn.'],
-        res: 'Buoi_08_Dung_API_Gemini — tài liệu md + notebook ipynb.',
+        tip: 'Key chỉ của riêng bạn — đừng ghi cứng vào file công khai; nên để trong biến môi trường hoặc file .env. Buổi kết màn: để AI viết nháp báo cáo rồi bạn chỉnh lại.',
+        practice: ['Cài google-generativeai và thử lấy API key của mình.', 'Nhờ Gemini tóm tắt biên bản cuộc họp, in câu trả lời.', 'Nạp bảng doanh thu theo tháng và nhờ Gemini viết nhận xét gửi sếp.', 'Lưu kết quả Gemini ra file TXT.'],
+        res: 'Buoi_09_Lam_viec_voi_API_Gemini — tài liệu md + notebook ipynb.',
 
         ipynb: 'https://drive.google.com/file/d/1tJbzTspn0p7hlZgYcppCkkleMtpbu1qM/view'
-      },
-      {
-        id: 'c09', n: '09', title: 'Ôn tập tổng hợp', kind: 'du-an',
-        goal: ['Ôn lại toàn bộ kiến thức 8 buổi trước.', 'Thực hành bài tập vận dụng phối hợp nhiều kỹ năng.', 'Dùng Gemini giải quyết một công việc văn phòng cụ thể.'],
-        theory: ['Buổi ôn tập gồm 2 ví dụ hướng dẫn (biến, ép kiểu, phép toán, f-string, if, list, for) và bài tập tự làm xuyên suốt buổi 1-4, không cần thư viện hay file. Ôn lại lần lượt từng kỹ năng trước khi gộp.', 'Phần cuối dùng API Gemini giải quyết công việc thực tế — tóm tắt biên bản cuộc họp và liệt kê việc cần làm — kết nối kiến thức đã học với công việc văn phòng.'],
-        code: `# Ôn tập — ví dụ hướng dẫn 1: biến, ép kiểu, phép toán và if
-so_luong = 3
-don_gia = 200000
-thanh_tien = so_luong * don_gia
-
-nhan_xet = "Hóa đơn vừa" if thanh_tien >= 500000 else "Hóa đơn nhỏ"
-print("Thành tiền:", thanh_tien, "VND -", nhan_xet)`,
-        tip: 'Ôn lần lượt từng kỹ năng, rồi làm bài gộp nhiều kỹ năng. Câu hỏi Gemini là bước kết nối AI với công việc thật.',
-        practice: ['Làm bài tập ôn phép toán, ép kiểu và f-string.', 'Làm bài tập vận dụng chuỗi, dict, if và for.', 'Dùng Gemini tóm tắt biên bản cuộc họp và liệt kê việc cần làm.'],
-        res: 'Buoi_09_On_tap_tong_hop — tài liệu md + notebook ipynb.',
-
-        ipynb: 'https://drive.google.com/file/d/1RAtPDjRa1LDmJmpwfC49NnJ7e2RxNQlM/view'
       }
+
     ];
 
     function escCode(s) {
@@ -558,15 +564,15 @@ print("Thành tiền:", thanh_tien, "VND -", nhan_xet)`,
           <li>Làm sạch dữ liệu văn bản bằng chuỗi và regex.</li>
           <li>Đọc ghi file txt và tự động hóa thư mục một cách chủ động.</li>
           <li>Tự động hóa việc sắp xếp, đổi tên, backup file thư mục.</li>
-          <li>Xuất báo cáo Excel và dùng AI (Gemini) trong công việc.</li>
-          <li>Ôn tập tổng hợp toàn bộ 8 buổi đã học.</li>
+          <li>Phân tích dữ liệu bằng pandas, vẽ biểu đồ và xuất báo cáo Excel.</li>
+          <li>Làm việc với API Gemini để tự viết báo cáo nhận xét từ số liệu.</li>
         </ul>
         <blockquote><p>Giáo trình dùng Python 3. Một số buổi cần cài thêm thư viện bằng pip. Nếu máy chưa cài được môi trường, có thể dùng Google Colab miễn phí trên trình duyệt.</p></blockquote>
         <h2>Ba giai đoạn của khóa</h2>
         <div class="callout-grid">
           <div class="mini-card"><b>Nền tảng</b><p>Buổi 01–03: cú pháp, rẽ nhánh, vòng lặp, hàm, list và dictionary.</p></div>
           <div class="mini-card"><b>Ứng dụng</b><p>Buổi 04–07: làm sạch dữ liệu, file, tự động hóa, báo cáo Excel.</p></div>
-          <div class="mini-card"><b>Dự án</b><p>Buổi 08–09: dùng API Gemini và ôn tập tổng hợp.</p></div>
+          <div class="mini-card"><b>Dự án</b><p>Buổi 08–09: phân tích dữ liệu bằng pandas và làm việc với API Gemini.</p></div>
         </div>
       </section>` +
       buois.map(chapterHtml).join('') +
