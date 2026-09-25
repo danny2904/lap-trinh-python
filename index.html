@@ -468,7 +468,7 @@ for f in thu_muc.glob("*"):
         ipynb: 'https://drive.google.com/file/d/1yCJnZmKzu8odYqZr0e0TGoalfFuY1XW8/view'
       },
       {
-        id: 'c07', n: '07', open: '2026-09-25', title: 'Đọc ghi file Excel', kind: 'ung-dung',
+        id: 'c07', n: '07', open: '2026-10-02', title: 'Đọc ghi file Excel', kind: 'ung-dung',
         goal: ['Tạo file Excel bằng openpyxl.', 'Ghi dữ liệu vào từng ô và thêm dòng.', 'Đọc lại file Excel và lưu bản mới.'],
         theory: ['openpyxl làm việc với bảng tính thuần: Workbook() tạo file mới, ws.active lấy sheet, ws.append(dong) thêm một dòng, ws["A1"] hoặc ws.cell(row, column) truy cập ô, wb.save() lưu file. Phù hợp bảng điểm, tổng kết đơn giản.', 'load_workbook mở file có sẵn để đọc hoặc sửa; kết hợp append để thêm cột xếp loại rồi lưu thành file mới.'],
         code: `try:
@@ -496,7 +496,7 @@ else:
         ipynb: 'https://drive.google.com/file/d/1FeCzGW-elWne97Vu7mvhf82WODKT4wwC/view'
       },
       {
-        id: 'c08', n: '08', open: '2026-09-25', title: 'Phân tích dữ liệu', kind: 'du-an',
+        id: 'c08', n: '08', open: '2026-10-02', title: 'Phân tích dữ liệu', kind: 'du-an',
         goal: ['Đọc dữ liệu từ file CSV bằng pandas và khám phá nhanh.', 'Nhóm và tính tổng bằng groupby() để trả lời câu hỏi kinh doanh.', 'Vẽ biểu đồ cột, đường, tròn và xuất báo cáo Excel.'],
         theory: ['pandas đọc bảng dữ liệu thành DataFrame: pd.read_csv("ban_hang.csv"), df.head()/tail() xem vài dòng, df["Doanh_thu"].describe() thống kê trung bình min max.', 'Nhóm theo tư duy Pivot Table trong Excel: df.groupby("Danh_muc")["Doanh_thu"].sum() cộng tổng theo từng nhóm; lọc bằng df[df["Doanh_thu"] > ngưỡng]. Vẽ thẳng từ kết quả bằng .plot(kind="bar"/"line"/"pie") rồi lưu báo cáo bằng pd.ExcelWriter.'],
         code: `try:
@@ -518,7 +518,7 @@ else:
         ipynb: 'https://drive.google.com/file/d/1gdD5q8NYBWYMO1ISmm-EUCqyF7_UJfay/view'
       },
       {
-        id: 'c09', n: '09', open: '2026-10-02', title: 'Làm việc với API Gemini', kind: 'du-an',
+        id: 'c09', n: '09', open: '2026-10-09', title: 'Làm việc với API Gemini', kind: 'du-an',
         goal: ['Cài thư viện google-generativeai và lấy API key của mình.', 'Gọi Gemini và đưa nội dung công việc vào prompt.', 'Nạp bảng số liệu (kiểu phân tích buổi 8) để Gemini viết nhận xét gửi sếp.'],
         theory: ['Gemini là mô hình AI của Google; API trả văn bản: genai.configure(api_key=KHOA_CUA_BAN), model = genai.GenerativeModel("gemini-2.0-flash"), cau_tra_loi = model.generate_content(noi_dung), in cau_tra_loi.text.', 'Buổi kết màn: đưa bảng thống kê vào prompt để Gemini viết đoạn nhận xét gửi sếp (executive summary) và tự phát hiện tháng bất thường — kết hợp Python truyền thống và AI để giải phóng công sức.'],
         code: `# Trình duyệt demo: không có key nên chỉ xem luồng gọi, không chạy thật.
