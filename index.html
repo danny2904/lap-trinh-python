@@ -468,7 +468,7 @@ for f in thu_muc.glob("*"):
         ipynb: 'https://drive.google.com/file/d/1yCJnZmKzu8odYqZr0e0TGoalfFuY1XW8/view'
       },
       {
-        id: 'c07', n: '07', open: '2026-10-02', title: 'Đọc ghi file Excel', kind: 'ung-dung',
+        id: 'c07', n: '07', open: '2026-09-27', title: 'Đọc ghi file Excel', kind: 'ung-dung',
         goal: ['Tạo file Excel bằng openpyxl.', 'Ghi dữ liệu vào từng ô và thêm dòng.', 'Đọc lại file Excel và lưu bản mới.'],
         theory: ['openpyxl làm việc với bảng tính thuần: Workbook() tạo file mới, ws.active lấy sheet, ws.append(dong) thêm một dòng, ws["A1"] hoặc ws.cell(row, column) truy cập ô, wb.save() lưu file. Phù hợp bảng điểm, tổng kết đơn giản.', 'load_workbook mở file có sẵn để đọc hoặc sửa; kết hợp append để thêm cột xếp loại rồi lưu thành file mới.'],
         code: `try:
@@ -496,7 +496,7 @@ else:
         ipynb: 'https://drive.google.com/file/d/1FeCzGW-elWne97Vu7mvhf82WODKT4wwC/view'
       },
       {
-        id: 'c08', n: '08', open: '2026-10-02', title: 'Phân tích dữ liệu', kind: 'du-an',
+        id: 'c08', n: '08', open: '2026-09-27', title: 'Phân tích dữ liệu', kind: 'du-an',
         goal: ['Đọc dữ liệu từ file CSV bằng pandas và khám phá nhanh.', 'Nhóm và tính tổng bằng groupby() để trả lời câu hỏi kinh doanh.', 'Vẽ biểu đồ cột, đường, tròn và xuất báo cáo Excel.'],
         theory: ['pandas đọc bảng dữ liệu thành DataFrame: pd.read_csv("ban_hang.csv"), df.head()/tail() xem vài dòng, df["Doanh_thu"].describe() thống kê trung bình min max.', 'Nhóm theo tư duy Pivot Table trong Excel: df.groupby("Danh_muc")["Doanh_thu"].sum() cộng tổng theo từng nhóm; lọc bằng df[df["Doanh_thu"] > ngưỡng]. Vẽ thẳng từ kết quả bằng .plot(kind="bar"/"line"/"pie") rồi lưu báo cáo bằng pd.ExcelWriter.'],
         code: `try:
