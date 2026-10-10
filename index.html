@@ -519,20 +519,20 @@ else:
       },
       {
         id: 'c09', n: '09', open: '2026-10-09', title: 'Làm việc với API Gemini', kind: 'du-an',
-        goal: ['Cài thư viện google-generativeai và lấy API key của mình.', 'Gọi Gemini và đưa nội dung công việc vào prompt.', 'Nạp bảng số liệu (kiểu phân tích buổi 8) để Gemini viết nhận xét gửi sếp.'],
-        theory: ['Gemini là mô hình AI của Google; API trả văn bản: genai.configure(api_key=KHOA_CUA_BAN), model = genai.GenerativeModel("gemini-2.0-flash"), cau_tra_loi = model.generate_content(noi_dung), in cau_tra_loi.text.', 'Buổi kết màn: đưa bảng thống kê vào prompt để Gemini viết đoạn nhận xét gửi sếp (executive summary) và tự phát hiện tháng bất thường — kết hợp Python truyền thống và AI để giải phóng công sức.'],
-        code: `# Trình duyệt demo: không có key nên chỉ xem luồng gọi, không chạy thật.
+        goal: ['Cài thư viện google-generativeai và khai báo API key Gemini (lớp đã có key dùng chung để chạy ngay).', 'Gọi Gemini và đưa nội dung công việc vào prompt.', 'Nạp bảng số liệu (kiểu phân tích buổi 8) để Gemini viết nhận xét gửi sếp.'],
+        theory: ['Gemini là mô hình AI của Google; API trả văn bản: genai.configure(api_key=API_KEY), model = genai.GenerativeModel("gemini-2.5-flash"), cau_tra_loi = model.generate_content(noi_dung), in cau_tra_loi.text (notebook của lớp đã điền sẵn API key dùng chung).', 'Buổi kết màn: đưa bảng thống kê vào prompt để Gemini viết đoạn nhận xét gửi sếp (executive summary) và tự phát hiện tháng bất thường — kết hợp Python truyền thống và AI để giải phóng công sức.'],
+        code: `# Trình duyệt demo: chỉ xem luồng gọi, không chạy thật.
 # Trên máy thật:
 #   pip install -q google-generativeai
 #   import google.generativeai as genai
-#   genai.configure(api_key="KHOA_CUA_BAN")   # đăng ký miễn phí Google AI Studio
-#   model = genai.GenerativeModel("gemini-2.0-flash")
+#   genai.configure(api_key=API_KEY)   # notebook của lớp đã điền sẵn key dùng chung
+#   model = genai.GenerativeModel("gemini-2.5-flash")
 #   dap = model.generate_content("Viết nhận xét ngắn gọn gửi sếp về bảng doanh thu theo tháng.")
 #   print(dap.text)
 
 print("Demo: luồng gọi Gemini — install, configure, generate_content, .text")`,
-        tip: 'Key chỉ của riêng bạn — đừng ghi cứng vào file công khai; nên để trong biến môi trường hoặc file .env. Buổi kết màn: để AI viết nháp báo cáo rồi bạn chỉnh lại.',
-        practice: ['Cài google-generativeai và thử lấy API key của mình.', 'Nhờ Gemini tóm tắt biên bản cuộc họp, in câu trả lời.', 'Nạp bảng doanh thu theo tháng và nhờ Gemini viết nhận xét gửi sếp.', 'Lưu kết quả Gemini ra file TXT.'],
+        tip: 'Notebook của lớp đã có sẵn API key dùng chung để bạn chạy ngay. Khi tự làm việc thật, đừng ghi cứng key vào file công khai (web, GitHub) — nên để trong biến môi trường hoặc file .env. Buổi kết màn: để AI viết nháp báo cáo rồi bạn chỉnh lại.',
+        practice: ['Cài google-generativeai và chạy ô khai báo API key (key dùng chung của lớp đã có sẵn).', 'Nhờ Gemini tóm tắt biên bản cuộc họp, in câu trả lời.', 'Nạp bảng doanh thu theo tháng và nhờ Gemini viết nhận xét gửi sếp.', 'Lưu kết quả Gemini ra file TXT.'],
         res: 'Buoi_09_Lam_viec_voi_API_Gemini — tài liệu md + notebook ipynb.',
 
         ipynb: 'https://drive.google.com/file/d/1tJbzTspn0p7hlZgYcppCkkleMtpbu1qM/view'
